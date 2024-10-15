@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: story-deployment
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: story
@@ -20,4 +20,7 @@ spec:
               name: story-volume
       volumes:
         - name: story-volume
-          emptyDir: {} # creates a empty directory per pod and survices container restart.
+          # emptyDir: {} # creates a empty directory per pod and survices container restart, but pods don't share data.
+          hostPath: # creates a path in the host machine (host and pods shares data) - works for multiple pods, but only pods on same worker node has access.
+            path: /data
+            type: DirectoryOrCreate # if not exists, creates a directory
