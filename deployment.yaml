@@ -14,7 +14,14 @@ spec:
     spec:
       containers:
         - name: story
-          image: falamarcaodocker/kube-data-demo:2
+          image: falamarcaodocker/kube-data-demo:3
+          env:
+            - name: STORY_FOLDER
+              # value: 'story'
+              valueFrom:
+                configMapKeyRef: 
+                  name: env-vars # see environment.yaml file
+                  key: folder
           volumeMounts:
             - mountPath: /app/story
               name: story-volume
